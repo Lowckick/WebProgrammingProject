@@ -22,16 +22,23 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CS_SE.py" />
+    <Compile Include="app.py" />
+    <Compile Include="config.py" />
+    <Compile Include="DBU.py" />
     <Compile Include="DBWK.py" />
-    <Compile Include="pymongo_get_database.py" />
+    <Compile Include="DmarketDBupdate.py" />
+    <Compile Include="targetCreator.py" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.11" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="About.html" />
     <Content Include="HTMLPage1.html" />
     <Content Include="HTMLPage2_DB.html" />
+    <Content Include="HTMLPage2_DMDB.html" />
+    <Content Include="style1.css" />
+    <Content Include="style2.css" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

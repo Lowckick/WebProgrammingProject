@@ -1,0 +1,22 @@
+{
+  "name": "cs_se",
+  "version": "1.0.0",
+  "description": "Project for CS_SE project",
+  "main": "csse.js",
+  "scripts": {
+    "test": "no command"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lowckick/WebProgrammingProject.git"
+  },
+  "keywords": [
+    "CS:GO"
+  ],
+  "author": "Holovcko Uaroslav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lowckick/WebProgrammingProject/issues"
+  },
+  "homepage": "https://github.com/Lowckick/WebProgrammingProject#readme"
+}

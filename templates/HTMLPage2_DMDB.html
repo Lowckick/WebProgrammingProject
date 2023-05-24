@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Database</title>
+    <title>Database</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style2.css') }}" />
+</head>
+<body>
+    <header>
+        <h1>CS:GO Skins Database</h1>
+    </header>
+    <a href="localhost:5000/HTMLPage1.html" id="database-link">Search Engine</a><img alt=""
+                                                                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Steam_logo.svg/2560px-Steam_logo.svg.png" style="height:30px; width:80px" /></a></p>
+
+    <footer>
+        <p>© 2023 CS:GO SE Holovko Uaroslav</p>
+        <a href="localhost:5000/About.html" id="about-link"></a>
+    </footer>
+    <table>
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Suggested price</th>
+                <th>Quality</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            {% for i in range(50) %}
+
+            <tr>
+                <td>{{ item['objects'][i]['title'] }}</td>
+                <td>{{ item['objects'][i]['price']['USD'] }}</td>
+                <td>{{ item['objects'][i]['suggestedPrice']['USD'] }}</td>
+                <td>{{ item['objects'][i]['extra']['quality'] }}</td>
+                <td>{{ item['objects'][i]['extra']['categoryPath'] }}</td>
+                <td><img src="{{ item['objects'][i]['image'] }}"></td>
+
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="#" method="POST">
+        <label for="name">Item Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="price">Listings:</label>
+        <input type="number" id="price" name="price" required><br><br>
+
+        <label for="suggested_price">Suggested price:</label>
+        <input type="text" id="suggested price" name="suggested price" step="0.00000000000001" required><br><br>
+
+        <label for="quality">Quality:</label>
+        <input type="text" id="quality" name="quality" step="0.00000000000001" required><br><br>
+
+        <label for="categoryPath">Type:</label>
+        <input type="text" id="categoryPath" name="categoryPath" step="0.01" required><br><br>
+
+        <label for="image">Icon:</label>
+        <input type="url" id="icon_url" name="icon_url" required><br><br>
+
+        <input type="submit" value="Add Item">
+    </form>
+</body>
+</html>

@@ -10,7 +10,7 @@ dbname = get_database()
 collection = dbname["user_1_items"]
 
 # Задаємо URL-адресу, з якої потрібно отримати дані
-url = 'https://api.dmarket.com/exchange/v1/market/items?gameId=a8db&limit=50&offset=0&orderBy=title&orderDir=desc&currency=USD&priceFrom=0&priceTo=0'
+url = 'https://api.dmarket.com/exchange/v1/market/items?gameId=a8db&limit=150&offset=0&orderBy=title&orderDir=desc&currency=USD&priceFrom=0&priceTo=0'
 get_url=''
 # Відправляємо запит і отримуємо дані з URL-адреси
 response = requests.get(url)

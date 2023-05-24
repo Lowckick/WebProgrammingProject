@@ -4,6 +4,22 @@ body {
     color: #E5E5E5;
 }
 
+body {
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+
 .table {
     color: red;
     padding: 5px;
@@ -23,10 +39,10 @@ header {
 .row2 {
     margin-left: 50px;
 }
+
 .form-control {
     background-color: #6c757d;
     width: 25%;
-  
 }
 
 input {
@@ -94,7 +110,7 @@ nav {
 
 .result {
     margin-bottom: 1rem;
-}   
+}
 
 .result-title {
     font-size: 1.5rem;

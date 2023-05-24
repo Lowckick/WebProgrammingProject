@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CS:GO Skin Float Calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style3.css') }}" />
+
+
+</head>
+<body>
+    <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;">
+        <img src="https://i.imgur.com/YGa21Em.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="Background Image">
+    </div>
+
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">CS:GO Skins Database</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:5000/HTMLPage1.html">Search Engine</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:5000/About"> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:5000/auth"><img alt="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Steam_logo.svg/2560px-Steam_logo.svg.png" style="height:30px; width:80px"></a>
+                    </li>
+                    <li class="nav-item">
+                        <p>© 2023 CS:GO SE Holovko Uaroslav</p>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="mt-5">
+                <h2>CS:GO Grade System</h2>
+                <form id="skins-form">
+
+                    <div class="form-group">
+                        <label for="skin1">Skin 1:</label>
+                        <select class="form-control" id="skin1" name="skin1">
+                            <option value="AK-47 | Redline">AK-47 | Redline</option>
+                            <option value="AWP | Asiimov">AWP | Asiimov</option>
+                            <option value="M4A1-S | Hyper Beast">M4A1-S | Hyper Beast</option>
+                            <option value="Desert Eagle | Conspiracy">Desert Eagle | Conspiracy</option>
+                            <option value="USP-S | Kill Confirmed">USP-S | Kill Confirmed</option>
+                        </select>
+                        <input type="number" step="0.0001" class="form-control mt-2" id="float1" name="float1" placeholder="Enter float value (0.0000 - 1.0000)">
+                    </div>
+                    <div class="form-group">
+                        <label for="skin2">Skin 2:</label>
+                        <select class="form-control" id="skin2" name="skin2">
+                            <option value="AK-47 | Redline">AK-47 | Redline</option>
+                            <option value="AWP | Asiimov">AWP | Asiimov</option>
+                            <option value="M4A1-S | Hyper Beast">M4A1-S | Hyper Beast</option>
+                            <option value="Desert Eagle | Conspiracy">Desert Eagle | Conspiracy</option>
+                            <option value="USP-S | Kill Confirmed">USP-S | Kill Confirmed</option>
+                        </select>
+                        <input type="number" step="0.0001" class="form-control mt-2" id="float2" name="float2" placeholder="Enter float value (0.0000 - 1.0000)">
+                    </div>
+                    <div class="form-group">
+                        <label for="skin3">Skin 3:</label>
+                        <select class="form-control" id="skin3" name="skin3">
+                            <option value="AK-47 | Redline">AK-47 | Redline</option>
+                            <option value="AWP | Asiimov">AWP | Asiimov</option>
+                            <option value="M4A1-S | Hyper Beast">M4A1-S | Hyper Beast</option>
+                            <option value="Desert Eagle | Conspiracy">Desert Eagle | Conspiracy</option>
+                            <option value="USP-S | Kill Confirmed">USP-S | Kill Confirmed</option>
+                        </select>
+                        <input type="number" step="0.0001" class="form-control mt-2" id="float3" name="float3" placeholder="Enter float value (0.0000 - 1.0000)">
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-5" id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#skins-form').submit(function (event) {
+                event.preventDefault();
+
+                var skin1 = $('#skin1').val();
+                var float1 = parseFloat($('#float1').val());
+                var skin2 = $('#skin2').val();
+                var float2 = parseFloat($('#float2').val());
+                var skin3 = $('#skin3').val();
+                var float3 = parseFloat($('#float3').val());
+
+                var floats = [float1, float2, float3];
+                var skins = [skin1, skin2, skin3];
+                var middleFloat = calculateMiddleFloat(floats);
+                var nextGradeSkin = getNextGradeSkin(skins);
+
+                // Display the results
+                $('#results').html('<h3>Results:</h3>' +
+                    '<p>Middle Float: ' + middleFloat.toFixed(4) + '</p>' +
+                    '<p>Next Grade Skin: ' + nextGradeSkin + '</p>');
+            });
+
+            function calculateMiddleFloat(floats) {
+                var sum = floats.reduce(function (total, current) {
+                    return total + current;
+                }, 0);
+
+                var middleFloat = sum / floats.length;
+                return middleFloat;
+            }
+
+            function getNextGradeSkin(skins) {
+                var gradeSkins = {
+                    "AK-47 | Redline": ["Desert Eagle | Hand Cannon"],
+                    "AWP | Asiimov": [ "M4A1-S | Mecha Industries"],
+                    "M4A1-S | Hyper Beast": ["AWP | Hyper Beast" ],
+                    "Desert Eagle | Conspiracy": ["AK-47 | Vulcan"],
+                    "USP-S | Kill Confirmed": ["Desert Eagle | Blaze"]
+                };
+
+                var nextGradeSkins = [];
+                var usedSkins = {};
+
+                // Count the number of times each skin is used
+                for (var i = 0; i < skins.length; i++) {
+                    var skin = skins[i];
+                    usedSkins[skin] = (usedSkins[skin] || 0) + 1;
+                }
+
+                // Get the next grade skins based on the number of times each skin is used
+                for (var i = 0; i < skins.length; i++) {
+                    var skin = skins[i];
+                    var nextGradeSkinList = gradeSkins[skin];
+
+                    if (nextGradeSkinList) {
+                        for (var j = 0; j < nextGradeSkinList.length; j++) {
+                            var nextGradeSkin = nextGradeSkinList[j];
+                            var possibility = usedSkins[skin] / skins.length;
+                            nextGradeSkins.push({ "skin": nextGradeSkin, "possibility": possibility });
+                        }
+                    }
+                }
+
+                // Select a random next grade skin based on the possibilities
+                var random = Math.random();
+                var cumulativeProbability = 0;
+
+                for (var i = 0; i < nextGradeSkins.length; i++) {
+                    var nextGradeSkin = nextGradeSkins[i];
+                    cumulativeProbability += nextGradeSkin.possibility;
+
+                    if (random <= cumulativeProbability) {
+                        return nextGradeSkin.skin;
+                    }
+                }
+
+                return "No next grade skin available";
+            }
+        });
+    </script>
+</body>
+</html>

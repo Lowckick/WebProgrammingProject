@@ -2,172 +2,229 @@
 <html>
 <head>
     <title>Database</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #F2F2F2;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        td, th {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
+    <script>
+        $(document).ready(function () {
+            $('th[data-sort]').on('click', function () {
+                var column = $(this).data('sort');
+                var order = $(this).hasClass('asc') ? 'desc' : 'asc';
+                $('.sort-icon').html('');
+                $(this).find('.sort-icon').html(order == 'asc' ? '&uarr;' : '&darr;');
+                $(this).removeClass('asc desc').addClass(order);
+                sortTable(column, order);
+            });
 
-        th {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }        
-
-        header {
-            background-color: #007bff;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 36px;
-            font-weight: bold;
-        }
-
-        form {
-            margin: 20px auto;
-            width: 70%;
-            border: 1px solid #ddd;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-
-        #about-link {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        #about-link:hover {
-            background-color: #0056b3;
-        }
-
-
-        footer {
-            background-color: #007bff;
-            color: #fff;
-            padding: 1px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
-        }
-
-            footer p {
-                margin: 0;
-                font-size: 14px;
+            function sortTable(column, order) {
+                var rows = $('tbody > tr').get();
+                rows.sort(function (a, b) {
+                    var keyA = $(a).find('td:eq(' + $('th[data-sort="' + column + '"]').index() + ')').text();
+                    var keyB = $(b).find('td:eq(' + $('th[data-sort="' + column + '"]').index() + ')').text();
+                    if ($.isNumeric(keyA) && $.isNumeric(keyB)) {
+                        keyA = parseFloat(keyA);
+                        keyB = parseFloat(keyB);
+                    }
+                    var result = (keyA < keyB) ? -1 : (keyA > keyB) ? 1 : 0;
+                    return (order == 'desc') ? ~result + 1 : result;
+                });
+                $.each(rows, function (index, row) {
+                    $('tbody').append(row);
+                });
             }
+        });
+    </script>
 
-        #database-link {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-weight: bold;
-            color: #fff;
-            font-size: 36px;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-            #database-link:hover {
-                color: #0056b3;
+    <script>
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.querySelector(".table");
+            switching = true;
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
             }
+        }
+    </script>
 
+    <script>
+        $(document).ready(function () {
+            $('#item-name-input, #listings-input, #sell-price-input, #buyorder-price-input, #type-input').on('input', function () {
+                var itemName = $('#item-name-input').val().toLowerCase();
+                var listings = $('#listings-input').val().toLowerCase();
+                var sellPrice = $('#sell-price-input').val().toLowerCase();
+                var buyorderPrice = $('#buyorder-price-input').val().toLowerCase();
+                var type = $('#type-input').val().toLowerCase();
+                $('table tbody tr').filter(function () {
+                    var rowItemName = $(this).find('td:eq(0)').text().toLowerCase();
+                    var rowListings = $(this).find('td:eq(1)').text().toLowerCase();
+                    var rowSellPrice = $(this).find('td:eq(2)').text().toLowerCase();
+                    var rowBuyorderPrice = $(this).find('td:eq(3)').text().toLowerCase();
+                    var rowType = $(this).find('td:eq(4)').text().toLowerCase();
+                    var match = true;
+                    if (itemName && !rowItemName.includes(itemName)) {
+                        match = false;
+                    }
+                    if (listings && !rowListings.includes(listings)) {
+                        match = false;
+                    }
+                    if (sellPrice && !rowSellPrice.includes(sellPrice)) {
+                        match = false;
+                    }
+                    if (buyorderPrice && !rowBuyorderPrice.includes(buyorderPrice)) {
+                        match = false;
+                    }
+                    if (type && !rowType.includes(type)) {
+                        match = false;
+                    }
+                    $(this).toggle(match);
+                });
+            });
+        });
+    </script>
 
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style2.css') }}" />
 </head>
 <body>
-    <header>
-        <h1>CS:GO Skins Database</h1>
-    </header>
-    <a href="localhost:5000/HTMLPage1.html" id="database-link">Search Engine</a
-    href="http://localhost:5000/auth"><img alt=""
-    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Steam_logo.svg/2560px-Steam_logo.svg.png" style="height:30px; width:80px" /></a></p>
+    <div style=" background-image: url('https://i.imgur.com/YGa21Em.jpg')">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">CS:GO Skins Database</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:5000/HTMLPage1.html">Search Engine</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:5000/About"> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:5000/auth"><img alt="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Steam_logo.svg/2560px-Steam_logo.svg.png" style="height:30px; width:80px"></a>
+                    </li>
+                    <li class="nav-item">
+                        <p>© 2023 CS:GO SE Holovko Uaroslav</p>
+                    </li>
 
-    <footer>
-        <p>© 2023 CS:GO SE Holovko Uaroslav</p>
-        <a href="localhost:5000/About.html" id="about-link"></a>
-    </footer>
-    <table>
-        <thead>
-            <tr>
-                <th>Item Name</th>
-                <th>Listings</th>
-                <th>Sell price</th>
-                <th>Buyorder price</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in data %}
-            <tr>
-                <td>{{ item['name'] }}</td>
-                <td>{{ item['sell_listings'] }}</td>
-                <td>{{ item['sell_price_text'] }}</td>
-                <td>{{ item['sale_price_text'] }}</td>
-                <td>{{ item['asset_description']['type'] }}</td>
-
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <form action="#" method="POST">
-        <label for="name">Item Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-
-        <label for="sell_listing">Listings:</label>
-        <input type="number" id="listings" name="listings" required><br><br>
-
-        <label for="sell_price_text">Sell price:</label>
-        <input type="text" id="sell price" name="sell price" step="0.00000000000001" required><br><br>
-
-        <label for="sale_price_text">Buyorder price:</label>
-        <input type="text" id="buyorder price" name="buyorder price" step="0.00000000000001" required><br><br>
-        
-        <label for="type">Type:</label>
-        <input type="text" id="type" name="type" step="0.01" required><br><br>
-
-        <label for="icon_url">Icon:</label>
-        <input type="url" id="icon_url" name="icon_url" required><br><br>
-
-        <input type="submit" value="Add Item">
-    </form>
+                </ul>
+            </div>
+        </nav>
+        <div class="row2">
+            <div class="col-md-12">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="item-name-input">Item Name:</label>
+                        <input type="text" class="form-control" id="item-name-input" name="item-name-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="listings-input">Listings:</label>
+                        <input type="number" class="form-control" id="listings-input" name="listings-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sell-price-input">Sell price:</label>
+                        <input type="text" class="form-control" id="sell-price-input" name="sell-price-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="buyorder-price-input">Buyorder price:</label>
+                        <input type="text" id="buyorder-price-input" name="buyorder-price-input" step="0.00000000000001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="type-input">Type:</label>
+                        <input type="text" id="type-input" name="type-input" step="0.01" required><br><br>
+                    </div>
+                    <input type="submit" value="Filter">
+                </form>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable(0)" data-sort="name">Item Name <span class="sort-icon"></span></th>
+                                <th onclick="sortTable(1)" data-sort="listings">Listings <span class="sort-icon"></span></th>
+                                <th onclick="sortTable(2)" data-sort="sell_price">Sell Price <span class="sort-icon"></span></th>
+                                <th onclick="sortTable(3)" data-sort="buyorder_price">Buyorder Price <span class="sort-icon"></span></th>
+                                <th onclick="sortTable(4)" data-sort="type">Type <span class="sort-icon"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in data %}
+                            <tr>
+                                <td>{{ item['name'] }}</td>
+                                <td>{{ item['sell_listings'] }}</td>
+                                <td>{{ item['sell_price_text'] }}</td>
+                                <td>{{ item['sale_price_text'] }}</td>
+                                <td>{{ item['asset_description']['type'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label for="name">Item Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="listings">Listings:</label>
+                            <input type="number" class="form-control" id="listings" name="listings" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sell_price">Sell price:</label>
+                            <input type="text" class="form-control" id="sell price" name="sell_price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sale_price_text">Buyorder price:</label>
+                            <input type="text" id="buyorder price" name="buyorder price" step="0.00000000000001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Type:</label>
+                            <input type="text" id="type" name="type" step="0.01" required><br><br>
+                        </div>
+                        <input type="submit" value="Add Item">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+

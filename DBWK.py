@@ -42,7 +42,7 @@ def index():
         collection_name.insert_one(new_item)
 
     data = collection_name.find({})
-    return render_template('bootstraptest.html', data=data)
+    return render_template('HTMLPage2_DB.html', data=data)
 
 @app.route('/HTMLPage2_DMDB.html', methods=['GET', 'POST'])
 def index44():
@@ -82,6 +82,10 @@ def index3():
     return render_template('About.html')
 
 @app.route("/auth")
+
+@app.route('/Calculator', methods=['GET', 'POST'])
+def index5():
+    return render_template('Calculator.html')
 def auth_with_steam():
 
   params = {

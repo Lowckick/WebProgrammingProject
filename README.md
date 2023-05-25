@@ -57,3 +57,11 @@ Github: https://github.com/VilaTiw/Immigration-Assistance-Application
 <br>
 Pull request: https://github.com/VilaTiw/Lowckick_WebProgrammingProject/pull/1
 <br>
+## Lab 4:
+<br>
+Taras Rohulia
+<br>
+Github: https://github.com/Tarasukk/Web;
+<br>
+Pull request: https://github.com/Tarasukk/WebProgrammingProject/pull/1
+<br>

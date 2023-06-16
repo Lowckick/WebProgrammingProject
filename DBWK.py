@@ -19,8 +19,8 @@ collection_name2 = dbname["market_items"]
 
 
 
-@app.route('/HTMLPage2_DB.html', methods=['GET', 'POST'])
-def index():
+@app.route('/DB', methods=['GET', 'POST'])
+def steam_database():
     if request.method == 'POST':
         name = request.form['name']
         sell_listings = request.form['sell_listings']
@@ -44,8 +44,8 @@ def index():
     data = collection_name.find({})
     return render_template('HTMLPage2_DB.html', data=data)
 
-@app.route('/HTMLPage2_DMDB.html', methods=['GET', 'POST'])
-def index44():
+@app.route('/DMDB', methods=['GET', 'POST'])
+def Dmarkt_database():
     if request.method == 'POST':
         i=0
         while i<50:
@@ -72,20 +72,21 @@ def index44():
     data = collection_name2.find({})
     return render_template('HTMLPage2_DMDB.html', data=data)
 
-@app.route('/HTMLPage1.html', methods=['GET'])
-def index2():
+@app.route('/', methods=['GET'])
+def search_engine():
     return render_template('HTMLPage1.html')
 
 
 @app.route('/About', methods=['GET'])
-def index3():
+def about():
     return render_template('About.html')
 
-@app.route("/auth")
 
 @app.route('/Calculator', methods=['GET', 'POST'])
-def index5():
+def calculator():
     return render_template('Calculator.html')
+
+@app.route("/auth")
 def auth_with_steam():
 
   params = {
@@ -99,13 +100,19 @@ def auth_with_steam():
 
   query_string = urlencode(params)
   auth_url = steam_openid_url + "?" + query_string
+
   print(auth_url)
   return redirect(auth_url)
 
 @app.route("/authorize")
 def authorize():
   print(request.args)
+  steam_id = request.args.get('openid.identity').split('/')[-1]
   return dumps(request.args) + '<br><br><a href="http://localhost:5000/auth">Login with steam</a>'
+
+@app.route("/profile")
+def profile():
+    return render_template('Profile.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

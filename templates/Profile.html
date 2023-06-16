@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Steam Authorization</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Steam Authorization</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="avatar">Avatar:</label>
+                            <img id="avatar" class="img-fluid" alt="Avatar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Steam user ID
+        const steamId = '76561198851176036';
+
+        // Steam API key
+        const apiKey = '8386C327632B71BB13E0B9BD699E96BD';
+
+        // Steam Web API URL
+        const steamApiUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`;
+
+        // Fetch user profile data from the Steam API and populate the fields
+        fetch(steamApiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const player = data.response.players[0];
+
+                // Update the profile information on the page
+                document.getElementById('username').value = player.personaname;
+                document.getElementById('avatar').src = player.avatarfull;
+            })
+            .catch(error => {
+                console.error('Error fetching profile data:', error);
+            });
+    </script>
+</body>
+</html>

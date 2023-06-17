@@ -114,30 +114,7 @@ def authorize():
   steam_id = request.args.get('openid.identity').split('/')[-1]
   return dumps(request.args) + '<br><br><a href="http://localhost:5000/auth">Login with steam</a>'
 
-@app.route("/profile/<user_id>")
-def profile(user_id):
-    # Retrieve user information from MongoDB based on user_id
-    user_data = collection_name3.find_one({"user_id": user_id})
 
-    if user_data:
-        username = user_data["username"]
-        api_code = user_data.get("api_code", "")  # Get existing API code if it exists
-    else:
-        # Handle the case when user_id doesn't exist in the database
-        return "User not found."
-
-    return render_template("profile.html", username=username, api_code=api_code, user_id=user_id)
-
-
-@app.route("/profile/<user_id>", methods=["POST"])
-def update_profile(user_id):
-    # Retrieve the API code from the submitted form
-    api_code = request.form.get("api_code")
-
-    # Update the user's MongoDB document with the new API code
-    collection_name3.update_one({"user_id": user_id}, {"$set": {"api_code": api_code}}, upsert=True)
-
-    return "API code updated successfully!"
 
 if __name__ == '__main__':
     app.run(debug=True)

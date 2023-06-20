@@ -3,7 +3,7 @@ import requests
 from pymongo import MongoClient
 from DBWK import get_database
 
-url = "https://steamcommunity.com/market/search/render/?query=&start=0&count=200search_descriptions=0&appid=730&norender=1"
+url = "https://bymykel.github.io/CSGO-API/api/en/skins.json"
 response = requests.get(url)
 data2 = json.loads(response.text)
 
@@ -20,4 +20,4 @@ for result in data2['results']:
         {"name": result['name']}, 
         {"$set": result}, 
         upsert=True
-    )   
+    )

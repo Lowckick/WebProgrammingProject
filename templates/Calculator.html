@@ -1,175 +1,185 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CS:GO Skin Float Calculator</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style3.css') }}" />
-
-
+    <title>CS:GO Trade-Up Simulator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;">
-        <img src="https://i.imgur.com/YGa21Em.jpg" style="object-fit: cover; width: 100%; height: 100%;" alt="Background Image">
+    <div class="container">
+        <h1>CS:GO Trade-Up Simulator</h1>
+        <form id="tradeUpForm" action="{{ url_for('index') }}" method="POST">
+            <div class="mb-3">
+                <label for="skin1" class="form-label">Skin 1:</label>
+                <select class="form-select" id="skin1" name="skin1" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float1" class="form-label">Float 1:</label>
+                <input type="number" step="0.001" class="form-control" id="float1" name="float1" required>
+            </div>
+            <div class="mb-3">
+                <label for="skin2" class="form-label">Skin 2:</label>
+                <select class="form-select" id="skin2" name="skin2" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float2" class="form-label">Float 2:</label>
+                <input type="number" step="0.001" class="form-control" id="float2" name="float2" required>
+            </div>
+            <div class="mb-3">
+                <label for="skin3" class="form-label">Skin 3:</label>
+                <select class="form-select" id="skin3" name="skin3" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float3" class="form-label">Float 3:</label>
+                <input type="number" step="0.001" class="form-control" id="float3" name="float3" required>
+            </div>
+            <div class="mb-3">
+                <label for="skin4" class="form-label">Skin 4:</label>
+                <select class="form-select" id="skin4" name="skin4" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float4" class="form-label">Float 4:</label>
+                <input type="number" step="0.001" class="form-control" id="float4" name="float4" required>
+            </div>
+            <div class="mb-3">
+                <label for="skin5" class="form-label">Skin 5:</label>
+                <select class="form-select" id="skin5" name="skin5" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float5" class="form-label">Float 5:</label>
+                <input type="number" step="0.001" class="form-control" id="float5" name="float5" required>
+            </div>
+            <div class="mb-3">
+                <label for="skin6" class="form-label">Skin 6:</label>
+                <select class="form-select" id="skin6" name="skin6" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float6" class="form-label">Float 6:</label>
+                <input type="number" step="0.001" class="form-control" id="float6" name="float6" required>
+            </div>
+            <div class="mb-3">
+                <label for="skin7" class="form-label">Skin 7:</label>
+                <select class="form-select" id="skin7" name="skin7" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float7" class="form-label">Float 7:</label>
+                <input type="number" step="0.001" class="form-control" id="float7" name="float7" required>
+            </div>
+            <div class="mb-3">
+                <label for="skin8" class="form-label">Skin 8:</label>
+                <select class="form-select" id="skin8" name="skin8" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float8" class="form-label">Float 8:</label>
+                <input type="number" step="0.001" class="form-control" id="float8" name="float8" required>
+            </div>
+            <div class="mb-3">
+                <label for="skin9" class="form-label">Skin 9:</label>
+                <select class="form-select" id="skin9" name="skin9" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float9" class="form-label">Float 9:</label>
+                <input type="number" step="0.001" class="form-control" id="float9" name="float9" required>
+            </div>
+            <div class="mb-3">
+                <label for="skin10" class="form-label">Skin 10:</label>
+                <select class="form-select" id="skin10" name="skin10" required>
+                    {% for skin in skins %}
+                    <option value="{{ skin.name }}">{{ skin.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="float10" class="form-label">Float 10:</label>
+                <input type="number" step="0.001" class="form-control" id="float10" name="float10" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Simulate Trade-Up</button>
+        </form>
+
+        <div id="result" class="mt-4"></div>
     </div>
 
-    <div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">CS:GO Skins Database</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Search Engine</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/About"> About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth"><img alt="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Steam_logo.svg/2560px-Steam_logo.svg.png" style="height:30px; width:80px"></a>
-                    </li>
-                    <li class="nav-item">
-                        <p>© 2023 CS:GO SE Holovko Uaroslav</p>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="container">
-            <div class="mt-5">
-                <h2>CS:GO Grade System</h2>
-                <form id="skins-form">
-
-                    <div class="form-group">
-                        <label for="skin1">Skin 1:</label>
-                        <select class="form-control" id="skin1" name="skin1">
-                            <option value="AK-47 | Redline">AK-47 | Redline</option>
-                            <option value="AWP | Asiimov">AWP | Asiimov</option>
-                            <option value="M4A1-S | Hyper Beast">M4A1-S | Hyper Beast</option>
-                            <option value="Desert Eagle | Conspiracy">Desert Eagle | Conspiracy</option>
-                            <option value="USP-S | Kill Confirmed">USP-S | Kill Confirmed</option>
-                        </select>
-                        <input type="number" step="0.0001" class="form-control mt-2" id="float1" name="float1" placeholder="Enter float value (0.0000 - 1.0000)">
-                    </div>
-                    <div class="form-group">
-                        <label for="skin2">Skin 2:</label>
-                        <select class="form-control" id="skin2" name="skin2">
-                            <option value="AK-47 | Redline">AK-47 | Redline</option>
-                            <option value="AWP | Asiimov">AWP | Asiimov</option>
-                            <option value="M4A1-S | Hyper Beast">M4A1-S | Hyper Beast</option>
-                            <option value="Desert Eagle | Conspiracy">Desert Eagle | Conspiracy</option>
-                            <option value="USP-S | Kill Confirmed">USP-S | Kill Confirmed</option>
-                        </select>
-                        <input type="number" step="0.0001" class="form-control mt-2" id="float2" name="float2" placeholder="Enter float value (0.0000 - 1.0000)">
-                    </div>
-                    <div class="form-group">
-                        <label for="skin3">Skin 3:</label>
-                        <select class="form-control" id="skin3" name="skin3">
-                            <option value="AK-47 | Redline">AK-47 | Redline</option>
-                            <option value="AWP | Asiimov">AWP | Asiimov</option>
-                            <option value="M4A1-S | Hyper Beast">M4A1-S | Hyper Beast</option>
-                            <option value="Desert Eagle | Conspiracy">Desert Eagle | Conspiracy</option>
-                            <option value="USP-S | Kill Confirmed">USP-S | Kill Confirmed</option>
-                        </select>
-                        <input type="number" step="0.0001" class="form-control mt-2" id="float3" name="float3" placeholder="Enter float value (0.0000 - 1.0000)">
-                    </div>
-
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Calculate</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="mt-5" id="results"></div>
-        </div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#skins-form').submit(function (event) {
-                event.preventDefault();
-
-                var skin1 = $('#skin1').val();
-                var float1 = parseFloat($('#float1').val());
-                var skin2 = $('#skin2').val();
-                var float2 = parseFloat($('#float2').val());
-                var skin3 = $('#skin3').val();
-                var float3 = parseFloat($('#float3').val());
-
-                var floats = [float1, float2, float3];
-                var skins = [skin1, skin2, skin3];
-                var middleFloat = calculateMiddleFloat(floats);
-                var nextGradeSkin = getNextGradeSkin(skins);
-
-                // Display the results
-                $('#results').html('<h3>Results:</h3>' +
-                    '<p>Middle Float: ' + middleFloat.toFixed(4) + '</p>' +
-                    '<p>Next Grade Skin: ' + nextGradeSkin + '</p>');
-            });
-
-            function calculateMiddleFloat(floats) {
-                var sum = floats.reduce(function (total, current) {
-                    return total + current;
-                }, 0);
-
-                var middleFloat = sum / floats.length;
-                return middleFloat;
+        document.getElementById('tradeUpForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var form = event.target;
+            var skins = [];
+            var floats = [];
+            for (var i = 1; i <= 10; i++) {
+                skins.push(form.elements['skin' + i].value);
+                floats.push(form.elements['float' + i].value);
             }
 
-            function getNextGradeSkin(skins) {
-                var gradeSkins = {
-                    "AK-47 | Redline": ["Desert Eagle | Hand Cannon"],
-                    "AWP | Asiimov": [ "M4A1-S | Mecha Industries"],
-                    "M4A1-S | Hyper Beast": ["AWP | Hyper Beast" ],
-                    "Desert Eagle | Conspiracy": ["AK-47 | Vulcan"],
-                    "USP-S | Kill Confirmed": ["Desert Eagle | Blaze"]
-                };
-
-                var nextGradeSkins = [];
-                var usedSkins = {};
-
-                // Count the number of times each skin is used
-                for (var i = 0; i < skins.length; i++) {
-                    var skin = skins[i];
-                    usedSkins[skin] = (usedSkins[skin] || 0) + 1;
+            // Send an AJAX request to the server to perform the trade-up simulation
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    displayTradeUpResult(response);
                 }
-
-                // Get the next grade skins based on the number of times each skin is used
-                for (var i = 0; i < skins.length; i++) {
-                    var skin = skins[i];
-                    var nextGradeSkinList = gradeSkins[skin];
-
-                    if (nextGradeSkinList) {
-                        for (var j = 0; j < nextGradeSkinList.length; j++) {
-                            var nextGradeSkin = nextGradeSkinList[j];
-                            var possibility = usedSkins[skin] / skins.length;
-                            nextGradeSkins.push({ "skin": nextGradeSkin, "possibility": possibility });
-                        }
-                    }
-                }
-
-                // Select a random next grade skin based on the possibilities
-                var random = Math.random();
-                var cumulativeProbability = 0;
-
-                for (var i = 0; i < nextGradeSkins.length; i++) {
-                    var nextGradeSkin = nextGradeSkins[i];
-                    cumulativeProbability += nextGradeSkin.possibility;
-
-                    if (random <= cumulativeProbability) {
-                        return nextGradeSkin.skin;
-                    }
-                }
-
-                return "No next grade skin available";
-            }
+            };
+            xhr.send('skin1=' + skins[0] + '&skin2=' + skins[1] + '&skin3=' + skins[2] + '&skin4=' + skins[3] +
+                '&skin5=' + skins[4] + '&skin6=' + skins[5] + '&skin7=' + skins[6] + '&skin8=' + skins[7] +
+                '&skin9=' + skins[8] + '&skin10=' + skins[9] + '&float1=' + floats[0] + '&float2=' + floats[1] +
+                '&float3=' + floats[2] + '&float4=' + floats[3] + '&float5=' + floats[4] + '&float6=' + floats[5] +
+                '&float7=' + floats[6] + '&float8=' + floats[7] + '&float9=' + floats[8] + '&float10=' + floats[9]);
         });
+
+        function displayTradeUpResult(result) {
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            if ('error' in result) {
+                var errorParagraph = document.createElement('p');
+                errorParagraph.textContent = 'Error: ' + result.error;
+                resultDiv.appendChild(errorParagraph);
+            } else {
+                var inputSkinsHeading = document.createElement('h2');
+                inputSkinsHeading.textContent = 'Input Skins:';
+                resultDiv.appendChild(inputSkinsHeading);
+
+                var inputSkinsList = document.createElement('ul');
+                result.input_skins.forEach(function (skin) {
+                    var inputSkinItem = document.createElement('li');
+                    inputSkinItem.textContent = skin.name;
+                    inputSkinsList.appendChild(inputSkinItem);
+                });
+                resultDiv.appendChild(inputSkinsList);
+
+                var resultingSkinHeading = document.createElement('h2');
+                resultingSkinHeading.textContent = 'Resulting Skin:';
+                resultDiv.appendChild(resultingSkinHeading);
+
+                if (result.resulting_skin !== 'No Resulting Skin') {
+                    var resultingSkinImage = document.createElement('img');
+                    resultingSkinImage.src = result.resulting_skin_image;
+                    resultingSkinImage.alt = result.resulting_skin;
+                    resultDiv.appendChild(resultingSkinImage);
+                }
+
+                var resultingSkinParagraph = document.createElement('p');
+                resultingSkinParagraph.textContent = result.resulting_skin;
+                resultDiv.appendChild(resultingSkinParagraph);
+            }
+        }
     </script>
 </body>
 </html>

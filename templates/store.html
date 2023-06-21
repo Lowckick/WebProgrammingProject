@@ -44,7 +44,7 @@
                         <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{ item['asset_description']['icon_url'] }}/256fx256f" alt="Product Image">
                         <h5>{{ item.name }}</h5>
                         <p class="price">${{ item.sale_price_text }}</p>
-                        <a href="/buy/{{ item['_id'] }}/{{ user_id}}" class="btn btn-primary">Buy</a> <!-- Added a "Buy" button with the item's ID as the URL -->
+                        <a href="/buy/{{ item['name'] }}/{{ user_id}}" class="btn btn-primary">Buy</a> <!-- Added a "Buy" button with the item's ID as the URL -->
                     </div>
                 </div>
                 {% endfor %}

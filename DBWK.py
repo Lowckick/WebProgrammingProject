@@ -1,4 +1,5 @@
 import inspect
+from itertools import count
 import json
 from pandas import DataFrame
 from pymongo import MongoClient
@@ -9,8 +10,9 @@ from flask_oauthlib.client import OAuth
 from json import dumps
 from urllib.parse import urlencode
 import os
+from dotenv import load_dotenv
 
-
+load_dotenv()
 app = Flask(__name__)
 app.secret_key = 'your secret key here'
 oauth = OAuth(app)
@@ -19,7 +21,7 @@ def get_database():
  
    # Provide the mongodb atlas url to connect python to mongodb using pymongo
    #"mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
-   CONNECTION_STRING = os.environ.get('CONNECTION_STRING')
+   CONNECTION_STRING = os.getenv('CONNECTION_STRING')
    client = MongoClient(CONNECTION_STRING)
    return client['CS_SE']
 
@@ -27,7 +29,7 @@ def get_database2():
  
    # Provide the mongodb atlas url to connect python to mongodb using pymongo
    #"mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
-   CONNECTION_STRING = os.environ.get('CONNECTION_STRING')
+   CONNECTION_STRING = os.getenv('CONNECTION_STRING')
    client = MongoClient(CONNECTION_STRING)
    return client['Users_info']
 
@@ -254,13 +256,13 @@ def buy_item(name, user_id):
     # Fetching user details from the database
     user = collection_name3.find_one({'user_id': user_id})
     balance = user['balance']
-    sell_price = item.get('sell_price')  # Use .get() to handle potential missing key
+    sell_price = item['sell_price']
 
     if sell_price is None:
         return 'Sell price not available for the item.'
 
     user_items = user['processed_items']
-
+    count = user["total_items_count"][0]
     if balance >= (sell_price / 100):
         new_balance = balance - (sell_price / 100)
         collection_name3.update_one({'user_id': user_id}, {'$set': {'balance': new_balance}})
@@ -282,6 +284,7 @@ def buy_item(name, user_id):
         collection_name3.update_one({'user_id': user_id}, {'$set': {'processed_items': user_items}})
 
         count+=1
+        
         collection_name3.update_one({'user_id': user_id}, {'$set': {'total_items_count.0': count}} )
         return redirect(back2)
         
@@ -292,8 +295,9 @@ def buy_item(name, user_id):
 def sell_item(name, user_id):
     # Fetching item details from the first MongoDB collection
     user = collection_name3.find_one({'user_id': user_id})
+    count = user["total_items_count"][0]
     item = next((item for item in user['processed_items'] if item['market_name'] == name), None)
-    
+    back2=f'/profile/{user_id}'
     if item is None:
         return 'Item not found in the inventory'
 
@@ -319,8 +323,10 @@ def sell_item(name, user_id):
 
     # Removing the sold item from the first MongoDB collection
     collection_name3.update_one({'user_id': user_id}, {'$pull': {'processed_items': {'market_name': name}}})
+    count-=1
+    collection_name3.update_one({'user_id': user_id}, {'$set': {'total_items_count.0': count}})
 
-    return 'Item sold successfully!'
+    return redirect(back2)
 
 
   

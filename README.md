@@ -69,6 +69,7 @@ Configure Gunicorn for Heroku deployment.
 ## Local launch:
 It`s is simple project, so there is no need for complicated launch. Just copy the rep and you`re almoste ready to go
 You just need to provide connection string to your MongoDB
+P.S. don`t forget to pip3 requirements.txt)
 ```sh
   def get_database():
  

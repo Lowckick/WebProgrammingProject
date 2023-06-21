@@ -77,7 +77,9 @@ def Dmarkt_database():
 
 @app.route('/', methods=['GET'])
 def search_engine():
-    return render_template('HTMLPage1.html')
+    user_id = collection_name3.get('user_id')
+
+    return render_template('HTMLPage1.html', user_id=user_id)
 
 @app.route('/About', methods=['GET'])
 def about():
@@ -98,9 +100,9 @@ def auth_with_steam():
   }
 
   query_string = urlencode(params)
-  auth_url = steam_openid_url + "?" + query_string
+  auth_url = '/'
 
-  print(auth_url)
+
   return redirect(auth_url)
 
 @app.route("/authorize")
@@ -112,18 +114,20 @@ def authorize():
 @app.route("/profile/<user_id>")
 def profile(user_id):
     user_data = collection_name3.find_one({"user_id": user_id})
-
+    avatar=user_data["avatar_url"]
 
     if user_data:
         username = user_data["username"]
         user_id=user_data["user_id"]
-        api_code = user_data.get("api_code", "")  
+        api_code = user_data.get("api_code", "")
+        
 
         uitems = collection_name3.find({"user_id": user_id})
-
-        steam_api_url = f"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={api_code}&format=json&steamids={username}"
+        steam_api_url = f"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={api_code}&format=json&steamids={user_id}"
         response = requests.get(steam_api_url)
         data = response.json()
+        pitem=user_data['processed_items']
+
     
         if 'response' in data and 'players' in data['response']:
             players = data['response']['players']
@@ -136,11 +140,11 @@ def profile(user_id):
                         'avatar_url': avatar_url
                     }
                     collection_name3.update_one({'user_id': user_id},
-                    {'$push': {'avatar_url':  avatar_url}})
+                    {'$set': {'avatar_url':  avatar_url}})
     
         
                 
-        return render_template("profile.html", username=username, api_code=api_code, uitems=uitems, user_id=user_id)
+        return render_template("profile.html", username=username, api_code=api_code, uitems=uitems, user_id=user_id, pitem=pitem, avatar=avatar)
     else:
         return "User not found."
 
@@ -167,54 +171,59 @@ def update_inventory(user_id):
     response = requests.get(url)
     data = response.json()
 
-    if response.status_code == 200:
-        items = data["descriptions"]
+    items = data["descriptions"]
 
-        parsed_items = []
-        tc=[]
-        total_countdata=data["total_inventory_count"]
-        tc.append(total_countdata)
+    parsed_items = []
+    tc=[]
+    total_countdata=data["total_inventory_count"]
+    tc.append(total_countdata)
 
-        for item in items:
-            if item["type"]!="Base Grade Container":
-                inspect_link=data['actions']['link']
-            else:
-                inspect_link='Impossible for a case'
+    for item in items:
+        if item["type"]!="Base Grade Container":
+            item_data = {
+
+            "market_name": item["market_name"],   
+            "tradable": item['tradable'],  
+            "icon_url": item["icon_url"],
+            "link": item['actions']['link'],
+            "type": item['type']
+            }
+        else:
             item_data = {
 
                 "market_name": item["market_name"],   
                 "tradable": item['tradable'],  
                 "icon_url": item["icon_url"],
-                "link": inspect_link,
+                "link": 'Impossible for a case',
                 "type": item['type']
-             }
-            parsed_items.append(item_data)
-            output_data = {
-                'processed_items': parsed_items
-            }
-        collection_name3.update_one(
-            {'user_id': user_id},
-            {'$push': {'total_items_count': {'$each': tc}}}
-        )
-        collection_name3.update_one(
-            {'user_id': user_id},
-            {'$push': {'processed_items': {'$each': parsed_items}}})
+                }
+        parsed_items.append(item_data)
+        output_data = {
+            'processed_items': parsed_items
+        }
+    collection_name3.update_one(
+        {'user_id': user_id},
+        {'$push': {'total_items_count': {'$each': tc}}}
+    )
+    collection_name3.update_one(
+        {'user_id': user_id},
+        {'$push': {'processed_items': {'$each': parsed_items}}})
 
-        return redirect(back)
+    return redirect(back)
     
-    else:
-        return redirect(back)
+    
 
 
 
 @app.route("/store/<user_id>")
 def store(user_id):
     items = collection_name.find()
-
     user = collection_name3.find_one({'user_id': user_id})
     balance = user['balance']
+    user_id=user["user_id"]
 
-    return render_template('store.html', items=items, balance=balance)
+
+    return render_template('store.html', items=items, balance=balance, user_id=user_id)
 
 @app.route('/buy/<name>/<user_id>')
 def buy_item(name, user_id):
@@ -237,15 +246,65 @@ def buy_item(name, user_id):
         new_balance = balance - (sell_price / 100)
         collection_name3.update_one({'user_id': user_id}, {'$set': {'balance': new_balance}})
 
+        market_name = item['name']
+        tradable = item['asset_description'].get('tradable')
+        icon_url = item['asset_description'].get('icon_url')
+        link = item['asset_description']['actions'][0].get('link') if 'actions' in item['asset_description'] else None
+
+        new_item = {
+            'market_name': market_name,
+            'tradable': tradable,
+            'icon_url': icon_url,
+            'link': link
+        }
         # Adding the item to the user's items collection
-        user_items.append(item)
+        user_items.append(new_item)
         collection_name.delete_one({'name': name})
         collection_name3.update_one({'user_id': user_id}, {'$set': {'processed_items': user_items}})
 
+        count+=1
+        collection_name3.update_one({'user_id': user_id}, {'$set': {'total_items_count.0': count}} )
         return redirect(back2)
+        
     else:
         return 'Insufficient balance to purchase the item.'
 
+@app.route('/sell/<name>/<user_id>', methods=['POST'])
+def sell_item(name, user_id):
+    # Fetching item details from the first MongoDB collection
+    user = collection_name3.find_one({'user_id': user_id})
+    item = next((item for item in user['processed_items'] if item['market_name'] == name), None)
+    
+    if item is None:
+        return 'Item not found in the inventory'
+
+    # Extracting required item details
+    tradable = item['tradable']
+    icon_url = item['icon_url'] 
+    # Updating the second MongoDB collection with item details
+    new_item = {
+        'name': name,
+        'asset_description': {
+            'tradable': tradable,
+            'icon_url': icon_url,
+            
+        }
+    }
+    collection_name.insert_one(new_item)
+
+    # Updating the user's balance in the first MongoDB collection
+    price = float(request.form.get('price'))
+    balance = user['balance']
+    new_balance = balance + price
+    collection_name3.update_one({'user_id': user_id}, {'$set': {'balance': new_balance}})
+
+    # Removing the sold item from the first MongoDB collection
+    collection_name3.update_one({'user_id': user_id}, {'$pull': {'processed_items': {'market_name': name}}})
+
+    return 'Item sold successfully!'
+
+
+  
 
 
 if __name__ == '__main__':

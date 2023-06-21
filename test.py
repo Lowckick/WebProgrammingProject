@@ -1,49 +1,37 @@
-import pymongo
+import inspect
+import json
+from pandas import DataFrame
+from pymongo import MongoClient
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import requests
+from flask import request
+from flask_oauthlib.client import OAuth
+from json import dumps
+from urllib.parse import urlencode
+from config import get_database, get_database2
 
-# Connect to MongoDB
-client = pymongo.MongoClient("mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test")
-db = client["Users_info"]
-users = db["Users"]
+app = Flask(__name__)
+app.secret_key = 'your secret key here'
+oauth = OAuth(app)
+steam_openid_url = 'https://steamcommunity.com/openid/login'
 
-# Get user ID and username from MongoDB
-user = users.find_one({"username": "IMJK"})
-steam_id = user["user_id"]
-username = user["username"]
+dbname=get_database()
+collection_name = dbname["user_1_items"]
+collection_name2 = dbname["market_items"]
+collection_name4= dbname["allskinslist"]
+dbname2=get_database2()
+collection_name3 = dbname2["Users"]
+user_id='76561198851176036'
 
-# Get user profile information from Steam API
-profile_url = f"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=8386C327632B71BB13E0B9BD699E96BD&steamids={steam_id}"
-response = requests.get(profile_url)
-profile_data = response.json()["response"]["players"][0]
-avatar_url = profile_data["avatarfull"]
+user_data = collection_name3.find_one({"user_id": user_id})
 
-# Get user CS:GO inventory from Steam API
-inventory_url = f"https://steamcommunity.com/profiles/{steam_id}/inventory/json/730/2"
-response = requests.get(inventory_url)
-inventory_data = response.json()["rgDescriptions"]
-csgo_items = []
-for item in inventory_data.values():
-    if item["appid"] == 730:
-        csgo_items.append(item["name"])
+if user_data:
+    username = user_data["username"]
+    user_id=user_data["user_id"]
+    api_code = user_data.get("api_code", "")  
 
-# Display user information on a web page
-html = f"""
-<html>
-<head>
-    <title>{username}'s Steam Profile</title>
-</head>
-<body>
-    <h1>{username}'s Steam Profile</h1>
-    <img src="{avatar_url}">
-    <h2>CS:GO Skins</h2>
-    <ul>
-"""
-for item in csgo_items:
-    html += f"<li>{item}</li>"
-html += """
-    </ul>
-</body>
-</html>
-"""
+    uitems = collection_name3.find({"user_id": user_id})
+item=user_data['processed_items']
+print(item)
 
-print(html)
+    

@@ -7,28 +7,36 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylestore.css') }}" />
 </head>
 <body>
+    <div class="bg-image"
+         style="background-image: url('https://i.imgur.com/C2KMHMa.jpeg'); height: 1000px; width: 1920px ">
+     </div>
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
-                <a class="navbar-brand" href="#">CS-SE Store</a>
+                <a class="navbar-brand" href="#">CS:SE Store</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/">Browser</a>
+                            <a class="nav-link" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile/{{user_id}}">Profile</a>
+                            <a class="nav-link" href="#">Products</a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Account</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
         <div class="jumbotron text-center">
-            <h1>Welcome to the CS-SE</h1>
+            <h1>Welcome to the Black & Red Store</h1>
             <p>Discover our amazing collection of products</p>
 
             <p>Your Balance: ${{ balance }}</p> <!-- Displaying the user's balance -->
@@ -42,7 +50,7 @@
                         <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{ item['asset_description']['icon_url'] }}/256fx256f" alt="Product Image">
                         <h5>{{ item.name }}</h5>
                         <p class="price">${{ item.sale_price_text }}</p>
-                        <a href="/buy/{{ item['_id'] }}/{{ user_id}}" class="btn btn-primary">Buy</a> <!-- Added a "Buy" button with the item's ID as the URL -->
+                        <a href="/buy/{{ item['_id'] }}/" class="btn btn-primary">Buy</a> <!-- Added a "Buy" button with the item's ID as the URL -->
                     </div>
                 </div>
                 {% endfor %}

@@ -24,10 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="config.py" />
-    <Compile Include="DBU.py" />
     <Compile Include="DBWK.py" />
-    <Compile Include="DmarketDBupdate.py" />
-    <Compile Include="Stash.py" />
     <Compile Include="steam_parse.py" />
     <Compile Include="targetCreator.py" />
     <Compile Include="test.py" />
@@ -37,10 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.html" />
-    <Content Include="Calculator.html" />
-    <Content Include="HTMLPage1.html" />
-    <Content Include="HTMLPage2_DB.html" />
-    <Content Include="HTMLPage2_DMDB.html" />
     <Content Include="profile.html" />
     <Content Include="store.html" />
     <Content Include="style1.css" />

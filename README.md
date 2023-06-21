@@ -1,26 +1,26 @@
 ### CS Search Engine https://cs-se-4e4c06e63a84.herokuapp.com
 
 ## ROADMAP:
-1. Finish Heroku deploying with CI/CD    ///Still need to finish deploying and fixing deploy bug(check debuging block) :white_check_mark:
+:white_check_mark:1. Finish Heroku deploying with CI/CD:    ///Still need to finish deploying and fixing deploy bug(check debuging block) 
    1.1 Registration and research.
    1.2 Creating app.
    1.3 Deploying.
-2. SteamAPI connecting    ///Need to learn more about SteamAPI and viewall request to get all needed info: :white_check_mark:
+:white_check_mark:2. SteamAPI connecting:    ///Need to learn more about SteamAPI and viewall request to get all needed info 
    2.1 Research.
    2.2 Registration through SteamAPI.
    2.3 Parsing skins data.
    2.4 Parsing user data.
-3. Database establishing    ///After gettting along with API, i need to create a functionality to save&update mongodb database :white_check_mark:
+:white_check_mark:3. Database establishing:    ///After gettting along with API, i need to create a functionality to save&update mongodb database 
    3.1 Creating and researching.
    3.2 Basic functional to collect from json.
    3.3 Advenced functional to collect from api and convert inside app.
-4. Creating store   /// Store for a some functionality  :white_check_mark:
+:white_check_mark:4. Creating store:   /// Store for a some functionality  
    4.1 Creating a page.
    4.2 Writing a store functional.
-5. Creating a profile page///Profile page for user and functional invenrory :white_check_mark:
+:white_check_mark:5. Creating a profile page: ///Profile page for user and functional invenrory 
    5.1 Creating a page.
    5.2 Writing a profile functional.
-6. Creating a better and unique design ///Task wasn`t finished on 100%, but what`s done is done :white_check_mark:
+:white_check_mark:6. Creating a better and unique design: ///Task wasn`t finished on 100%, but what`s done is done 
    
 
 ## README:

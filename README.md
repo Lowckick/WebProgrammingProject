@@ -77,6 +77,7 @@ Configure Gunicorn for Heroku deployment.
 7. Heroku
 8. Gunicorn
 9. Steam API
+10. Bootstrap
 
 Holovko Uaroslav
 holovckouaroslav@gmail.com

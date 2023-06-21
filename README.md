@@ -88,16 +88,23 @@ def get_database2():
    return client['Users_info']
 ```
 ## Technology used:
-1. Python
-2. MongoDB
-3. Visual Code
-4. Azure
-5. pymongo
-6. DMarketAPI
-7. Heroku
-8. Gunicorn
-9. Steam API
-10. Bootstrap
+1. Python: Python is a popular high-level programming language known for its simplicity and readability. It has a vast ecosystem of libraries and frameworks, making it versatile for various applications, including web development, data analysis, artificial intelligence, and more.
+
+2. MongoDB: MongoDB is a NoSQL document-oriented database that provides high scalability, flexibility, and performance. It stores data in flexible, JSON-like documents, allowing for dynamic and evolving schemas. It is often used for handling large amounts of unstructured or semi-structured data.
+
+3. Visual Studio Code: Visual Studio Code (VS Code) is a lightweight yet powerful source code editor developed by Microsoft. It supports a wide range of programming languages and provides features such as intelligent code completion, debugging, version control integration, and extensibility through plugins.
+
+4. pymongo: pymongo is a Python library that provides a high-level interface for interacting with MongoDB databases. It simplifies the process of connecting to a MongoDB server, querying data, and performing CRUD (Create, Read, Update, Delete) operations on documents.
+
+5. DMarketAPI: DMarketAPI is an API (Application Programming Interface) provided by DMarket, a platform for trading and exchanging in-game items and virtual assets. The API allows developers to access DMarket's features programmatically, such as retrieving item information, creating listings, and managing transactions.
+
+6. Heroku: Heroku is a cloud platform that allows developers to deploy, manage, and scale applications easily. It supports various programming languages and provides a simple interface for deploying web applications without worrying about infrastructure management.
+
+7. Gunicorn: Gunicorn is a Python HTTP server that is commonly used to deploy web applications. It acts as a middle layer between the web server and the application, handling incoming requests and distributing them to the application processes. Gunicorn is known for its simplicity, performance, and ability to handle multiple concurrent requests.
+
+8. Steam API: Steam API is an application programming interface provided by Valve Corporation, the company behind the popular Steam gaming platform. It allows developers to access various features of the Steam platform, such as retrieving game information, user profiles, achievements, and integrating multiplayer functionality into their games.
+
+9. Bootstrap: Bootstrap is a popular front-end framework that provides a collection of CSS and JavaScript components for building responsive and mobile-first web pages. It simplifies the process of creating attractive and consistent user interfaces by providing pre-designed elements, responsive grid systems, and customizable themes. Bootstrap helps developers save time and effort in designing and styling web applications.
 
 Holovko Uaroslav
 holovckouaroslav@gmail.com

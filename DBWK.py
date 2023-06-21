@@ -296,6 +296,7 @@ def sell_item(name, user_id):
     # Fetching item details from the first MongoDB collection
     user = collection_name3.find_one({'user_id': user_id})
     count = user["total_items_count"][0]
+    price = float(request.form.get('price'))
     item = next((item for item in user['processed_items'] if item['market_name'] == name), None)
     back2=f'/profile/{user_id}'
     if item is None:
@@ -310,13 +311,15 @@ def sell_item(name, user_id):
         'asset_description': {
             'tradable': tradable,
             'icon_url': icon_url,
+            'sell_price': price
+
             
         }
     }
     collection_name.insert_one(new_item)
 
     # Updating the user's balance in the first MongoDB collection
-    price = float(request.form.get('price'))
+    
     balance = user['balance']
     new_balance = balance + price
     collection_name3.update_one({'user_id': user_id}, {'$set': {'balance': new_balance}})

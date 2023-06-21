@@ -80,6 +80,7 @@ Configure Gunicorn for Heroku deployment.
 
 Holovko Uaroslav
 holovckouaroslav@gmail.com
+https://t.me/Lowckick
 
 ## Lab 3:
 Added ability to search and filter database content

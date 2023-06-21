@@ -135,33 +135,38 @@ def authorize():
 @app.route("/profile/<user_id>")
 def profile(user_id):
     user_data = collection_name3.find_one({"user_id": user_id})
-    avatar=user_data["avatar_url"]
+    
 
     if user_data:
         username = user_data["username"]
         user_id=user_data["user_id"]
         api_code = user_data.get("api_code", "")
-        
-
-        uitems = collection_name3.find({"user_id": user_id})
-        steam_api_url = f"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={api_code}&format=json&steamids={user_id}"
-        response = requests.get(steam_api_url)
-        data = response.json()
         pitem=user_data['processed_items']
 
-    
-        if 'response' in data and 'players' in data['response']:
-            players = data['response']['players']
-            if len(players) > 0:
-                player = players[0]
-                if 'avatarfull' in player:
-                    avatar_url = player['avatarfull']
+        uitems = collection_name3.find({"user_id": user_id})
+
+
+        if user_data['avatar_url'] != "":
+            avatar=user_data["avatar_url"]
+            steam_api_url = f"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={api_code}&format=json&steamids={user_id}"
+            response = requests.get(steam_api_url)
+            data = response.json()
+            
+
+            if 'response' in data and 'players' in data['response']:
+                players = data['response']['players']
+                if len(players) > 0:
+                    player = players[0]
+                    if 'avatarfull' in player:
+                        avatar_url = player['avatarfull']
                 
-                    user_data = {
-                        'avatar_url': avatar_url
-                    }
-                    collection_name3.update_one({'user_id': user_id},
-                    {'$set': {'avatar_url':  avatar_url}})
+                        user_data = {
+                            'avatar_url': avatar_url
+                        }
+                        collection_name3.update_one({'user_id': user_id},
+                        {'$set': {'avatar_url':  avatar_url}})
+        else:
+            avatar=user_data["avatar_url"]
     
         
                 
@@ -191,9 +196,7 @@ def update_inventory(user_id):
     back=f"/profile/{user_id}"
     response = requests.get(url)
     data = response.json()
-
     items = data["descriptions"]
-
     parsed_items = []
     tc=[]
     total_countdata=data["total_inventory_count"]
@@ -206,7 +209,7 @@ def update_inventory(user_id):
             "market_name": item["market_name"],   
             "tradable": item['tradable'],  
             "icon_url": item["icon_url"],
-            "link": item['actions']['link'],
+            "link": item['actions'].get('link'),
             "type": item['type']
             }
         else:
@@ -249,84 +252,142 @@ def store(user_id):
 @app.route('/buy/<name>/<user_id>')
 def buy_item(name, user_id):
     # Fetching item details from the database
-    back2=f'/store/{user_id}'
+    back2 = f'/store/{user_id}'
     item = collection_name.find_one({'name': name})
 
-  
-    # Fetching user details from the database
     user = collection_name3.find_one({'user_id': user_id})
-    balance = user['balance']
-    sell_price = item['sell_price']
+    
+    buyer_balance = user['balance']
+    sell_price = (item['sell_price']/100)
 
     if sell_price is None:
         return 'Sell price not available for the item.'
 
     user_items = user['processed_items']
-    count = user["total_items_count"][0]
-    if balance >= (sell_price / 100):
-        new_balance = balance - (sell_price / 100)
-        collection_name3.update_one({'user_id': user_id}, {'$set': {'balance': new_balance}})
+    count1 = user["total_items_count"][0]
 
-        market_name = item['name']
-        tradable = item['asset_description'].get('tradable')
-        icon_url = item['asset_description'].get('icon_url')
-        link = item['asset_description']['actions'][0].get('link') if 'actions' in item['asset_description'] else None
 
-        new_item = {
-            'market_name': market_name,
-            'tradable': tradable,
-            'icon_url': icon_url,
-            'link': link
-        }
-        # Adding the item to the user's items collection
-        user_items.append(new_item)
-        collection_name.delete_one({'name': name})
-        collection_name3.update_one({'user_id': user_id}, {'$set': {'processed_items': user_items}})
+    
+    if item.get('seller_id')!= None:
+        if buyer_balance >= sell_price:
+            # Deduct the sell price from the seller's balance
+            new_buyer_balance = buyer_balance - sell_price
+            collection_name3.update_one({'user_id': user_id}, {'$set': {'balance': new_buyer_balance}})
+            if item.get('seller_id')!= None:
+                seller = collection_name3.find_one({'user_id': item['seller_id']})
+                count2=seller["total_items_count"][0]
+                count2 -=1
+                seller_id=seller['user_id']
+                seller_balance = seller['balance']
+                new_seller_balance = seller_balance + (sell_price / 100 )
+                collection_name3.update_one({'user_id': item.get('seller_id')}, {'$set': {'balance': new_seller_balance}})
+                collection_name3.update_one({'user_id': item.get('seller_id')}, {'$set': {'total_items_count.0': count2}})
+            else:
+                pass
 
-        count+=1
-        
-        collection_name3.update_one({'user_id': user_id}, {'$set': {'total_items_count.0': count}} )
-        return redirect(back2)
-        
+            # Add the item to the market collection
+            market_name = item['name']
+            tradable = item['asset_description'].get('tradable')
+            icon_url = item['asset_description'].get('icon_url')
+            link = item['asset_description']['actions'][0].get('link') if 'actions' in item['asset_description'] else None
+
+            new_item = {
+                'market_name': market_name,
+                'tradable': tradable,
+                'icon_url': icon_url,
+                'link': link,
+                'seller_id': user_id,
+                'sell_price': sell_price
+            }
+            user_items.append(new_item)  # Assuming you have a separate collection for the market items
+
+            collection_name.delete_one({'name': name})
+            collection_name3.update_one({'user_id': user_id}, {'$set': {'processed_items': user_items}})
+
+            count1 += 1
+            
+            collection_name3.update_one({'user_id': user_id}, {'$set': {'total_items_count.0': count1}})
+            
+
+            return redirect(back2)
+
+        else:
+            return 'Insufficient balance to purchase the item.'
     else:
-        return 'Insufficient balance to purchase the item.'
+        if buyer_balance >= sell_price:
+            # Deduct the sell price from the seller's balance
+            new_buyer_balance = buyer_balance - sell_price
+            collection_name3.update_one({'user_id': user_id}, {'$set': {'balance': new_buyer_balance}})
+            if item.get('seller_id')!= None:
+                seller = collection_name3.find_one({'user_id': item['seller_id  ']})
+                count2=seller["total_items_count"][0]
+                count2 -=1
+                collection_name3.update_one({'user_id': seller_id}, {'$set': {'total_items_count.0': count2}})
+                seller_id=seller['user_id']
+                seller_balance = seller['balance']
+                new_seller_balance = seller_balance + (sell_price / 100 )
+                collection_name3.update_one({'user_id': item.get('seller_id')}, {'$set': {'balance': new_seller_balance}})
+            else:
+                pass
+
+            # Add the item to the market collection
+            market_name = item['name']
+            tradable = item['asset_description'].get('tradable')
+            icon_url = item['asset_description'].get('icon_url')
+            link = item['asset_description']['actions'][0].get('link') if 'actions' in item['asset_description'] else None
+
+            new_item = {
+                'market_name': market_name,
+                'tradable': tradable,
+                'icon_url': icon_url,
+                'link': link,
+                'seller_id': user_id,
+                'sell_price': sell_price
+            }
+            user_items.append(new_item)  # Assuming you have a separate collection for the market items
+
+            collection_name.delete_one({'name': name})
+            collection_name3.update_one({'user_id': user_id}, {'$set': {'processed_items': user_items}})
+
+            count1 += 1
+            
+            collection_name3.update_one({'user_id': user_id}, {'$set': {'total_items_count.0': count1}})
+
+            return redirect(back2)
+
+        else:
+            return 'Insufficient balance to purchase the item.'
+
 
 @app.route('/sell/<name>/<user_id>', methods=['POST'])
 def sell_item(name, user_id):
-    # Fetching item details from the first MongoDB collection
     user = collection_name3.find_one({'user_id': user_id})
     count = user["total_items_count"][0]
     price = float(request.form.get('price'))
     item = next((item for item in user['processed_items'] if item['market_name'] == name), None)
-    back2=f'/profile/{user_id}'
+    back2 = f'/profile/{user_id}'
+
     if item is None:
         return 'Item not found in the inventory'
 
-    # Extracting required item details
     tradable = item['tradable']
-    icon_url = item['icon_url'] 
-    # Updating the second MongoDB collection with item details
+    icon_url = item['icon_url']
+
     new_item = {
         'name': name,
+        'sell_price': (price*100),
         'asset_description': {
             'tradable': tradable,
-            'icon_url': icon_url,
-            'sell_price': price
-
-            
-        }
+            'icon_url': icon_url
+        },
+        'seller_id': user_id
     }
     collection_name.insert_one(new_item)
 
-    # Updating the user's balance in the first MongoDB collection
     
-    balance = user['balance']
-    new_balance = balance + price
-    collection_name3.update_one({'user_id': user_id}, {'$set': {'balance': new_balance}})
-
-    # Removing the sold item from the first MongoDB collection
     collection_name3.update_one({'user_id': user_id}, {'$pull': {'processed_items': {'market_name': name}}})
-    count-=1
+
+    count -= 1
     collection_name3.update_one({'user_id': user_id}, {'$set': {'total_items_count.0': count}})
 
     return redirect(back2)

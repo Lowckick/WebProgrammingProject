@@ -109,6 +109,7 @@ def about():
 
 
 @app.route("/auth")
+@app.route("/auth")
 def auth_with_steam():
 
   params = {
@@ -116,8 +117,8 @@ def auth_with_steam():
     'openid.identity': "http://specs.openid.net/auth/2.0/identifier_select",
     'openid.claimed_id': "http://specs.openid.net/auth/2.0/identifier_select",
     'openid.mode': 'checkid_setup',
-    'openid.return_to': '/authorize',
-    'openid.realm': '/'
+    'openid.return_to': 'https://cs-se-4e4c06e63a84.herokuapp.com/authorize',
+    'openid.realm': 'https://cs-se-4e4c06e63a84.herokuapp.com'
   }
 
   query_string = urlencode(params)
@@ -130,7 +131,7 @@ def auth_with_steam():
 def authorize():
   print(request.args)
   steam_id = request.args.get('openid.identity').split('/')[-1]
-  return dumps(request.args) + '<br><br><a href="http://localhost:5000/auth">Login with steam</a>'
+  return dumps(request.args) + '<br><br><a href="https://cs-se-4e4c06e63a84.herokuapp.com/auth">Login with steam</a>'
 
 @app.route("/profile/<user_id>")
 def profile(user_id):

@@ -1,4 +1,4 @@
-### CS Search Engine
+### CS Search Engine https://cs-se-4e4c06e63a84.herokuapp.com
 
 ## ROADMAP:
 1. Finish Azure deploying with CI/CD    ///Still need to finish deploying and fixing deploy bug(check debuging block) :heavy_exclamation_mark:

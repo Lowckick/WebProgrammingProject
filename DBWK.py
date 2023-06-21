@@ -9,6 +9,8 @@ from flask_oauthlib.client import OAuth
 from json import dumps
 from urllib.parse import urlencode
 from config import get_database, get_database2
+import os
+
 
 app = Flask(__name__)
 app.secret_key = 'your secret key here'
@@ -21,6 +23,23 @@ collection_name2 = dbname["market_items"]
 collection_name4= dbname["allskinslist"]
 dbname2=get_database2()
 collection_name3 = dbname2["Users"]
+
+
+def get_database():
+ 
+   # Provide the mongodb atlas url to connect python to mongodb using pymongo
+   #"mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
+   CONNECTION_STRING = os.environ.get('CONNECTION_STRING')
+   client = MongoClient(CONNECTION_STRING)
+   return client['CS_SE']
+
+def get_database2():
+ 
+   # Provide the mongodb atlas url to connect python to mongodb using pymongo
+   #"mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
+   CONNECTION_STRING = os.environ.get('CONNECTION_STRING')
+   client = MongoClient(CONNECTION_STRING)
+   return client['Users_info']
 
 @app.route('/DB', methods=['GET', 'POST'])
 def steam_database():
@@ -96,8 +115,8 @@ def auth_with_steam():
     'openid.identity': "http://specs.openid.net/auth/2.0/identifier_select",
     'openid.claimed_id': "http://specs.openid.net/auth/2.0/identifier_select",
     'openid.mode': 'checkid_setup',
-    'openid.return_to': 'http://127.0.0.1:5000/authorize',
-    'openid.realm': 'http://127.0.0.1:5000'
+    'openid.return_to': '/authorize',
+    'openid.realm': '/'
   }
 
   query_string = urlencode(params)

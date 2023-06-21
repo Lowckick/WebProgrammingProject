@@ -67,7 +67,27 @@ Configure Gunicorn for Heroku deployment.
 
 21.06.23 Finished, not really enjoying with result, but i`m too done for futher work on this project. Too many problems P.S. In future, don`t choose project with theme, that you will enjoy working on, just don`t, you will say thank later.
 
-## Technology used for now:
+## Local launch:
+It`s is simple project, so there is no need for complicated launch. Just copy the rep and you`re almoste ready to go
+You just need to provide connection string to your MongoDB
+```sh
+  def get_database():
+ 
+   # Provide the mongodb atlas url to connect python to mongodb using pymongo
+   #"mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
+   CONNECTION_STRING = os.getenv('CONNECTION_STRING')
+   client = MongoClient(CONNECTION_STRING)
+   return client['CS_SE']
+
+def get_database2():
+ 
+   # Provide the mongodb atlas url to connect python to mongodb using pymongo
+   #"mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
+   CONNECTION_STRING = os.getenv('CONNECTION_STRING')
+   client = MongoClient(CONNECTION_STRING)
+   return client['Users_info']
+```
+## Technology used:
 1. Python
 2. MongoDB
 3. Visual Code

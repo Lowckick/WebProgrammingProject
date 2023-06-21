@@ -1,12 +1,27 @@
 ### CS Search Engine https://cs-se-4e4c06e63a84.herokuapp.com
 
 ## ROADMAP:
-1. Finish Heroku deploying with CI/CD    ///Still need to finish deploying and fixing deploy bug(check debuging block) :heavy_exclamation_mark:
+1. Finish Heroku deploying with CI/CD    ///Still need to finish deploying and fixing deploy bug(check debuging block) :white_check_mark:
+   1.1 Registration and research.
+   1.2 Creating app.
+   1.3 Deploying.
 2. SteamAPI connecting    ///Need to learn more about SteamAPI and viewall request to get all needed info :white_check_mark:
+   2.1 Research.
+   2.2 Registration through SteamAPI.
+   2.3 Parsing skins data.
+   2.4 Parsing user data.
 3. Database establishing    ///After gettting along with API, i need to create a functionality to save&update mongodb database :white_check_mark:
-4. Creating search engine    /// Must create a base search engine for a future establishing  :soon:
-5. Configurating engine for our purposes    ///Created for CS skins, must work with them, some search algorithm and sites rating will be needed 🔲:
-6. Creating a better and unique design ///After finishing backend it will important to create design for a site :white_check_mark:
+   3.1 Creating and researching.
+   3.2 Basic functional to collect from json.
+   3.3 Advenced functional to collect from api and convert inside app.
+4. Creating store   /// Store for a some functionality  :white_check_mark:
+   4.1 Creating a page.
+   4.2 Writing a store functional.
+5. Creating a profile page///Profile page for user and functional invenrory :white_check_mark:
+   5.1 Creating a page.
+   5.2 Writing a profile functional.
+6. Creating a better and unique design ///Task wasn`t finished on 100%, but what`s done is done :white_check_mark:
+   
 
 ## README:
 Right now there is a bug or code problem with deploying, but you can still launch it on your local host. Just launch code in your chosen environment and it will get it done and will give you localhost link(default localhost:5000)
@@ -29,15 +44,20 @@ Configure Gunicorn for Heroku deployment.
 
 04.05.23 Established database view from dmarketAPI and getting info from api url. Decided to get only dmarketAPI info.
 
+14.06.23 Changed app theme cause of functional blocks cause of API and other sources. Now it`s basic store with mongodb functional
+
+21.06.23 Finished, not really enjoying with result, but i`m too done for futher work on this project. Too many problems P.S. In future, don`t choose project with theme, that you will enjoy working on, just don`t, you will say thank later.
+
 ## Technology used for now:
 1. Python
 2. MongoDB
 3. Visual Code
 4. Azure
 5. pymongo
-6. Heroku
-7. Gunicorn
-8. Steam API
+6. DMarketAPI
+7. Heroku
+8. Gunicorn
+9. Steam API
 
 Holovko Uaroslav
 holovckouaroslav@gmail.com

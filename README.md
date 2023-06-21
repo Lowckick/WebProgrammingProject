@@ -42,8 +42,7 @@
 :white_check_mark:6. Creating a better and unique design: ///Task wasn`t finished on 100%, but what`s done is done 
    
 
-## README:
-Right now there is a bug or code problem with deploying, but you can still launch it on your local host. Just launch code in your chosen environment and it will get it done and will give you localhost link(default localhost:5000)
+
 
 
 ## DEBUGING:
@@ -87,6 +86,10 @@ def get_database2():
    client = MongoClient(CONNECTION_STRING)
    return client['Users_info']
 ```
+Then it will work on local server.
+
+#Kind-of-diagram
+https://lucid.app/lucidchart/af2486c7-f5b7-4467-8a79-a7b9c3e52007/
 ## Technology used:
 1. Python: Python is a popular high-level programming language known for its simplicity and readability. It has a vast ecosystem of libraries and frameworks, making it versatile for various applications, including web development, data analysis, artificial intelligence, and more.
 

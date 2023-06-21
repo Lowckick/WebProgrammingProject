@@ -108,7 +108,7 @@ def about():
 
 
 
-@app.route("/auth")
+
 @app.route("/auth")
 def auth_with_steam():
 
@@ -131,6 +131,7 @@ def auth_with_steam():
 def authorize():
   print(request.args)
   steam_id = request.args.get('openid.identity').split('/')[-1]
+  collection_name3.insert_one({"user_id": steam_id})
   return dumps(request.args) + '<br><br><a href="https://cs-se-4e4c06e63a84.herokuapp.com/auth">Login with steam</a>'
 
 @app.route("/profile/<user_id>")

@@ -8,7 +8,6 @@ from flask import request
 from flask_oauthlib.client import OAuth
 from json import dumps
 from urllib.parse import urlencode
-from config import get_database, get_database2
 import os
 
 
@@ -16,15 +15,6 @@ app = Flask(__name__)
 app.secret_key = 'your secret key here'
 oauth = OAuth(app)
 steam_openid_url = 'https://steamcommunity.com/openid/login'
-
-dbname=get_database()
-collection_name = dbname["user_1_items"]
-collection_name2 = dbname["market_items"]
-collection_name4= dbname["allskinslist"]
-dbname2=get_database2()
-collection_name3 = dbname2["Users"]
-
-
 def get_database():
  
    # Provide the mongodb atlas url to connect python to mongodb using pymongo
@@ -40,6 +30,15 @@ def get_database2():
    CONNECTION_STRING = os.environ.get('CONNECTION_STRING')
    client = MongoClient(CONNECTION_STRING)
    return client['Users_info']
+
+dbname=get_database()
+collection_name = dbname["user_1_items"]
+collection_name2 = dbname["market_items"]
+collection_name4= dbname["allskinslist"]
+dbname2=get_database2()
+collection_name3 = dbname2["Users"]
+
+
 
 @app.route('/DB', methods=['GET', 'POST'])
 def steam_database():

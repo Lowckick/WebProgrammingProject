@@ -134,70 +134,72 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="profile-card">
-            <div class="text-center">
-                <img src="{{ avatar }}" alt="Profile Picture" class="profile-picture">
-                <h1>Welcome, {{ username }}!</h1>
-            </div>
-            <form method="POST" action="/profile/{{ user_id }}">
-                <div class="form-group">
-                    <label for="api_code">API Code:</label>
-                    <input type="text" class="form-control" id="api_code" name="api_code">
+    <div style="background-image: url('https://i.imgur.com/0XxpITI.jpeg') ">
+        <div class="container">
+            <div class="profile-card">
+                <div class="text-center">
+                    <img src="{{ avatar }}" alt="Profile Picture" class="profile-picture">
+                    <h1>Welcome, {{ username }}!</h1>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Save API Code</button>
-            </form>
-
-            <div class="item-section">
-                <h2>Your Items</h2>
-                {% if uitems %}
-                <div id="tableContainer" class="skins-table">
-                    <table class="item-table">
-                        <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Tradeability</th>
-                                <th>Inspect Link</th>
-                                <th>Sell</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in uitems %}
-                            {% for i in range(item['total_items_count'][0]-1) %}
-                            <tr>
-                                <td><img src="https://steamcommunity-a.akamaihd.net/economy/image/{{ item['processed_items'][i]['icon_url'] }}/256fx256f" alt="Product Image"></td>
-                                <td>{{ item['processed_items'][i]['market_name'] }}</td>
-                                <td>{{ item['processed_items'][i]['tradable'] }}</td>
-                                <td>
-                                    {% if item['processed_items'][i]['type'] != "Base Grade Container" %}
-                                    <a href="{{ item['processed_items'][i]['link'] }}">Inspect link</a>
-                                    {% else %}
-                                    Not available for cases
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if item['processed_items'][i]['tradable'] != 0 %}
-                                    <form method="POST" action="/sell/{{ item['processed_items'][i]['market_name'] }}/{{ user_id }}">
-                                        <input type="number" name="price" placeholder="Enter price" required>
-                                        <button type="submit">Sell</button>
-                                    </form>
-                                    {% else %}
-                                    Can't sell this item
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% else %}
-                <p>No items in your inventory.</p>
-                {% endif %}
-                <form method="POST" action="/update_inventory/{{user_id}}">
-                    <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">Update Inventory</button>
+                <form method="POST" action="/profile/{{ user_id }}">
+                    <div class="form-group">
+                        <label for="api_code">API Code:</label>
+                        <input type="text" class="form-control" id="api_code" name="api_code">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Save API Code</button>
                 </form>
+
+                <div class="item-section">
+                    <h2>Your Items</h2>
+                    {% if uitems %}
+                    <div id="tableContainer" class="skins-table">
+                        <table class="item-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Tradeability</th>
+                                    <th>Inspect Link</th>
+                                    <th>Sell</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in uitems %}
+                                {% for i in range(item['total_items_count'][0]-1) %}
+                                <tr>
+                                    <td><img src="https://steamcommunity-a.akamaihd.net/economy/image/{{ item['processed_items'][i]['icon_url'] }}/256fx256f" alt="Product Image"></td>
+                                    <td>{{ item['processed_items'][i]['market_name'] }}</td>
+                                    <td>{{ item['processed_items'][i]['tradable'] }}</td>
+                                    <td>
+                                        {% if item['processed_items'][i]['type'] != "Base Grade Container" %}
+                                        <a href="{{ item['processed_items'][i]['link'] }}">Inspect link</a>
+                                        {% else %}
+                                        Not available for cases
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item['processed_items'][i]['tradable'] != 0 %}
+                                        <form method="POST" action="/sell/{{ item['processed_items'][i]['market_name'] }}/{{ user_id }}">
+                                            <input type="number" name="price" placeholder="Enter price" required>
+                                            <button type="submit">Sell</button>
+                                        </form>
+                                        {% else %}
+                                        Can't sell this item
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p>No items in your inventory.</p>
+                    {% endif %}
+                    <form method="POST" action="/update_inventory/{{user_id}}">
+                        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">Update Inventory</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

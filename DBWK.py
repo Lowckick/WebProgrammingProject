@@ -77,13 +77,14 @@ def Dmarkt_database():
 
 @app.route('/', methods=['GET'])
 def search_engine():
-    user_id = collection_name3.get('user_id')
+    user_d=collection_name3.find_one()
+    user_id=user_d['user_id']
 
     return render_template('HTMLPage1.html', user_id=user_id)
 
 @app.route('/About', methods=['GET'])
 def about():
-    return render_template('About.html')
+    return render_template('About.html', )
 
 
 
@@ -100,7 +101,7 @@ def auth_with_steam():
   }
 
   query_string = urlencode(params)
-  auth_url = '/'
+  auth_url = steam_openid_url + "?" + query_string
 
 
   return redirect(auth_url)

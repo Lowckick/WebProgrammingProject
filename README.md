@@ -1,7 +1,7 @@
 ### CS Search Engine https://cs-se-4e4c06e63a84.herokuapp.com
 
 ## ROADMAP:
-1. Finish Azure deploying with CI/CD    ///Still need to finish deploying and fixing deploy bug(check debuging block) :heavy_exclamation_mark:
+1. Finish Heroku deploying with CI/CD    ///Still need to finish deploying and fixing deploy bug(check debuging block) :heavy_exclamation_mark:
 2. SteamAPI connecting    ///Need to learn more about SteamAPI and viewall request to get all needed info :white_check_mark:
 3. Database establishing    ///After gettting along with API, i need to create a functionality to save&update mongodb database :white_check_mark:
 4. Creating search engine    /// Must create a base search engine for a future establishing  :soon:

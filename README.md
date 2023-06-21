@@ -19,6 +19,7 @@
    
 :white_check_mark:4. Creating store:   /// Store for a some functionality  
    4.1 Creating a page.
+   
    4.2 Writing a store functional.
    
 :white_check_mark:5. Creating a profile page: ///Profile page for user and functional invenrory 

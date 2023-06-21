@@ -5,7 +5,7 @@
    1.1 Registration and research.
    1.2 Creating app.
    1.3 Deploying.
-2. SteamAPI connecting    ///Need to learn more about SteamAPI and viewall request to get all needed info :white_check_mark:
+2. SteamAPI connecting    ///Need to learn more about SteamAPI and viewall request to get all needed info: :white_check_mark:
    2.1 Research.
    2.2 Registration through SteamAPI.
    2.3 Parsing skins data.

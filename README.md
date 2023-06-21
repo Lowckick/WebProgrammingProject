@@ -90,7 +90,7 @@ def get_database2():
 Then it will work on local server.
 
 #Kind-of-diagram
-https://lucid.app/lucidchart/af2486c7-f5b7-4467-8a79-a7b9c3e52007/
+https://lucid.app/lucidchart/af2486c7-f5b7-4467-8a79-a7b9c3e52007/edit?page=Qzx6eZss7Cns#
 ## Technology used:
 1. Python: Python is a popular high-level programming language known for its simplicity and readability. It has a vast ecosystem of libraries and frameworks, making it versatile for various applications, including web development, data analysis, artificial intelligence, and more.
 

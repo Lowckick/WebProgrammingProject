@@ -21,7 +21,7 @@ def get_database():
  
    # Provide the mongodb atlas url to connect python to mongodb using pymongo
    #"mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
-   CONNECTION_STRING = os.getenv('CONNECTION_STRING')
+   CONNECTION_STRING = "mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
    client = MongoClient(CONNECTION_STRING)
    return client['CS_SE']
 
@@ -29,7 +29,7 @@ def get_database2():
  
    # Provide the mongodb atlas url to connect python to mongodb using pymongo
    #"mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
-   CONNECTION_STRING = os.getenv('CONNECTION_STRING')
+   CONNECTION_STRING = "mongodb+srv://UaroslavH:BV9caZNzBmBPiNYQ@csgoskinexplorer.patitvp.mongodb.net/test"
    client = MongoClient(CONNECTION_STRING)
    return client['Users_info']
 
